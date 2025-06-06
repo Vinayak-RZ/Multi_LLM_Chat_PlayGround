@@ -15,6 +15,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
+  final nameController = TextEditingController();
   final passwordController = TextEditingController();
 
   @override
@@ -54,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Image.asset('assets/images/signin_balls.png'),
                   const Text(
-                    'Sign in.',
+                    'Sign Up.',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 50,
@@ -62,6 +63,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 15),
                   
+                  const SizedBox(height: 15),
+                  LoginField(
+                    hintText: 'Name',
+                    controller: nameController,
+                  ),
                   const SizedBox(height: 15),
                   LoginField(
                     hintText: 'Email',
@@ -79,6 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             AuthLoginRequested(
                               email: emailController.text.trim(),
                               password: passwordController.text.trim(),
+                              name: nameController.text.trim()
                             ),
                           );
                     },

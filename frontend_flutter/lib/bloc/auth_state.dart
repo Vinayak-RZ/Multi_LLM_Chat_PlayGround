@@ -8,7 +8,7 @@ final class AuthInitial extends AuthState {}
 final class AuthSuccess extends AuthState {
   final String uid; // This could be a UserModel
 
-  AuthSuccess({required this.uid});
+  AuthSuccess(this.uid);
 }
 
 final class AuthFailure extends AuthState {
