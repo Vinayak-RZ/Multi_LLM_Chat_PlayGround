@@ -3,6 +3,7 @@ using backend.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
+using BCrypt.Net;
 
 namespace backend.Services;
 
@@ -35,11 +36,24 @@ public class AuthService
         return user.PasswordHash == HashPassword(password);
     }
 
+
+public async Task<User?> ValidateUserAsync(string email, string password)
+{
+    var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+    if (user == null)
+        return null; // User not found
+
+    // Verify password
+    bool isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
+    if (!isPasswordValid)
+        return null; // Password incorrect
+
+    return user; // Authenticated user
+}
+
+
     private string HashPassword(string password)
     {
-        using var sha256 = SHA256.Create();
-        var bytes = Encoding.UTF8.GetBytes(password);
-        var hash = sha256.ComputeHash(bytes);
-        return Convert.ToBase64String(hash);
+        return BCrypt.Net.BCrypt.HashPassword(password, BCrypt.Net.BCrypt.GenerateSalt(12));
     }
 }
