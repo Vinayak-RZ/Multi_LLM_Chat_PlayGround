@@ -17,7 +17,7 @@ class GradientButton extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [
-            Pallete.gradient1,
+            Color.fromARGB(255, 219, 90, 255),
             Pallete.gradient2,
             Pallete.gradient3,
           ],
@@ -37,7 +37,8 @@ class GradientButton extends StatelessWidget {
           text,
           style: const TextStyle(
             fontWeight: FontWeight.w600,
-            fontSize: 17,
+            fontSize: 20,
+            color: Colors.white, // Text color
           ),
         ),
       ),
