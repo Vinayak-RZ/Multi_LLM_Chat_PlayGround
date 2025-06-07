@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend_flutter/bloc/auth_bloc.dart';
-import 'package:frontend_flutter/home_screen.dart';
-import 'package:frontend_flutter/widgets/gradient_button.dart';
-import 'package:frontend_flutter/widgets/login_field.dart';
+import 'package:frontend_flutter/presentation/screens/home_screen.dart';
+import 'package:frontend_flutter/presentation/widgets/gradient_button.dart';
+import 'package:frontend_flutter/presentation/widgets/login_field.dart';
 //import 'package:frontend_flutter/widgets/social_button.dart';
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+import 'package:frontend_flutter/presentation/screens/login_screen.dart';
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => __SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class __SignUpScreenState extends State<SignUpScreen> {
   final emailController = TextEditingController();
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
+                builder: (context) => const LoginScreen(),
               ),
               (route) => false,
             );
@@ -55,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Image.asset('assets/images/signin_balls.png'),
                   const Text(
-                    'Sign Up.',
+                    'Sign Up',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 50,
@@ -82,13 +82,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   GradientButton(
                     onPressed: () {
                       context.read<AuthBloc>().add(
-                            AuthLoginRequested(
+                            AuthSignUpRequested(
                               email: emailController.text.trim(),
                               password: passwordController.text.trim(),
                               name: nameController.text.trim()
                             ),
                           );
                     },
+                    text: "Sign Up",
                   ),
                 ],
               ),
