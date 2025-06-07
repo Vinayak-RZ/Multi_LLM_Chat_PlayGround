@@ -1,0 +1,28 @@
+# ================================
+# C# / ASP.NET Core
+# ================================
+backend/bin/
+backend/obj/
+*.user
+*.suo
+*.userosscache
+*.pfx
+*.db
+*.sqlite
+secrets.json
+.env
+.env.*
+appsettings.Development.json
+
+# ================================
+# Flutter
+# ================================
+frontend/.dart_tool/
+frontend/.flutter-plugins
+frontend/.flutter-plugins-dependencies
+frontend/.packages
+frontend/.idea/
+frontend/.vscode/
+frontend/build/
+frontend/pubspec.lock
+
