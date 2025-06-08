@@ -7,7 +7,7 @@ import 'package:frontend_flutter/pallete.dart';
 import 'package:frontend_flutter/presentation/screens/login_screen.dart';
 import 'package:frontend_flutter/presentation/screens/home_screen.dart';
 import 'package:frontend_flutter/routes/routes.dart';
-
+import 'package:frontend_flutter/data/repositories/llm_repository.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -20,7 +20,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(create: (BuildContext context) => AuthBloc()),
-        BlocProvider<LlmBlocBloc>(create: (BuildContext context) => LlmBlocBloc(),),
+        BlocProvider<LlmBlocBloc>(create: (BuildContext context) => LlmBlocBloc(
+           llmRepository: LLMRepository(),
+        ),),
       ],
       child: MaterialApp(
         title: 'Multi-LLM-Chat',

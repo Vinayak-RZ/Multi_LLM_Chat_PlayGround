@@ -16,7 +16,7 @@ class ResponseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 600,
-      height: 250, 
+      height: 250,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
         decoration: BoxDecoration(
@@ -31,8 +31,8 @@ class ResponseCard extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: Color.fromARGB(255, 30, 41, 59) // A deep indigo/navy blue
-, // Darker border
+            color: Color.fromARGB(255, 30, 41, 59), // A deep indigo/navy blue
+            // Darker border
             width: 4,
           ),
         ),
@@ -46,7 +46,7 @@ class ResponseCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
@@ -54,17 +54,19 @@ class ResponseCard extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color:Color.fromARGB(255, 30, 41, 59),
+                    color: Color.fromARGB(255, 30, 41, 59),
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  text,
-                  maxLines: 5,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.white,
+                SingleChildScrollView(
+                  child: Text(
+                    text,
+                    maxLines: 5,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],

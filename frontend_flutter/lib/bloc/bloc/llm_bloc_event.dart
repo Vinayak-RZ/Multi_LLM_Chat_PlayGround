@@ -5,7 +5,8 @@ sealed class LlmBlocEvent {}
 
 class LlmFetchData extends LlmBlocEvent {
   final String query;
-
+  final List<String> selectedLLMs= const ["deepseek", "mistral", "llama", "gemini"];
+  // You can add more LLMs to this list as needed
   LlmFetchData({required this.query});
 }
 class LlmFetchDataWithContext extends LlmBlocEvent {

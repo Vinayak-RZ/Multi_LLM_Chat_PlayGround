@@ -8,7 +8,9 @@ import 'package:frontend_flutter/presentation/screens/login_screen.dart';
 import 'package:frontend_flutter/presentation/widgets/message_input.dart';
 import 'package:frontend_flutter/presentation/widgets/response_card.dart';
 import 'package:frontend_flutter/presentation/widgets/gradient_button.dart';
+
 String history = ""; // To store response card history
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   // To store response card history
@@ -32,9 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            context.read<LlmBlocBloc>().add(
-                        LlmFetchData(query: history),
-                      ); 
+            context.read<LlmBlocBloc>().add(LlmFetchData(query: history));
           },
         ),
         title: ShaderMask(
@@ -255,17 +255,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                     bounds.height,
                                   ),
                                 ),
-                            child: Text(
-                              state.title,
-                              style: const TextStyle(
-                                fontSize: 35,
-                                fontWeight: FontWeight.normal,
-                                color: Color.fromARGB(
-                                  255,
-                                  255,
-                                  182,
-                                  242,
-                                ), // Deep indigo/navy blue color
+                            child: SingleChildScrollView(
+                              child: Text(
+                                state.title,
+                                style: const TextStyle(
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.normal,
+                                  color: Color.fromARGB(
+                                    255,
+                                    255,
+                                    182,
+                                    242,
+                                  ), // Deep indigo/navy blue color
+                                ),
                               ),
                             ),
                           ),

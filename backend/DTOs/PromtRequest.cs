@@ -2,7 +2,7 @@ namespace backend.DTOs
 {
     public class PromptRequest
 {
-    public string Prompt { get; set; } = null!;
-    public List<string> LLMs { get; set; } = new();  // ["openai", "gemini"]
+    public string prompt { get; set; } = null!;
+    public List<string> llms { get; set; } = new();  // ["openai", "gemini"]
 }
 }

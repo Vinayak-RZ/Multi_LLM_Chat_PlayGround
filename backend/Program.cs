@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Authorization;
 using DotNetEnv;
+using Microsoft.Extensions.Logging;
 
 
 
@@ -42,23 +43,27 @@ app.MapPost("/signup", async (RegisterRequest req, AuthService auth) =>
 });
 
 app.MapPost("/login", async (LoginRequest req, AuthService auth, JWTSettings jwtSettings) =>
-{
+{       
+    System.Diagnostics.Debug.WriteLine($"Login attempt for email: {req.Email}");
+    Console.WriteLine($"Login attempt for email: {req.Email}");
     var user = await auth.ValidateUserAsync(req.Email, req.Password);
     if (user == null) return Results.Unauthorized();
 
     var token = JwtTokenHelper.GenerateJwtToken(user, jwtSettings);
     return Results.Ok(new { token });
 });
-app.MapPost("/prompt", [Authorize] async (PromptRequest request,LLMService llmService, HttpContext context) =>
+app.MapPost("/prompt", async (PromptRequest request,LLMService llmService, HttpContext context) =>
 {
-    var tasks = request.LLMs.Select(async llm =>
+    Console.WriteLine($"Received prompt: {request.prompt} for LLMs: {string.Join(", ", request.llms)}");
+    System.Diagnostics.Debug.WriteLine("Received prompt: " + request.prompt);
+    var tasks = request.llms.Select(async llm =>
     {
         string response = llm.ToLower() switch
         {
-            "deepseek" => await llmService.CallDeepseekAsync(request.Prompt),
-            "gemini" => await llmService.CallGeminiAsync(request.Prompt),
-            "mistral" => await llmService.CallMistralAsync(request.Prompt),
-            "llama" => await llmService.CallLlamaAsync(request.Prompt),
+            "deepseek" => await llmService.CallDeepseekAsync(request.prompt),
+            "gemini" => await llmService.CallGeminiAsync(request.prompt),
+            "mistral" => await llmService.CallMistralAsync(request.prompt),
+            "llama" => await llmService.CallLlamaAsync(request.prompt),
             _ => "Unsupported LLM"
         };
 
