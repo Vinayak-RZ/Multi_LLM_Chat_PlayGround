@@ -1,13 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/llm_response.dart';
-
+import '';
 class LLMRepository {
   final String baseUrl= 'http://localhost:5261';
 
   LLMRepository();
   final url = Uri.parse('http://localhost:5261/prompt');
  Future<List<LLMResponse>> sendPrompt(String prompt, List<String> llms, String token) async {
+    String prompty = jsonEncode(prompt).toString();
+
     final response = await http.post(
       url,
       headers: {
@@ -15,13 +17,11 @@ class LLMRepository {
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode({
-        'prompt': prompt,
+        'prompt': prompty,
         'llms': llms,
       }),
     );
     print("Using Token: $token");
-    print(prompt);
-    print(response.body);
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = jsonDecode(response.body);
       return jsonList.map((e) => LLMResponse.fromJson(e)).toList();

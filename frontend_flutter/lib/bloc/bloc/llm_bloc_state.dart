@@ -16,8 +16,9 @@ final class LlmDataFetched extends LlmBlocState {
 final class LlmBlocIndsideResponse extends LlmBlocState {
   final String title;
   final String message;
+  final String futureprompt;
 
-  LlmBlocIndsideResponse({required this.message, required this.title});
+  LlmBlocIndsideResponse({required this.message, required this.title, required this.futureprompt});
 }
 final class LlmBlocFailure extends LlmBlocState {
   final String error;

@@ -71,6 +71,8 @@ final LLMRepository llmRepository;
   void _llmGoInResponse(LlmBlocGoInResponse event, Emitter<LlmBlocState> emit) {
     // Implement the logic to handle the response from the LLM API
     // This is a placeholder for the actual implementation
-    emit(LlmBlocIndsideResponse(title: event.title, message: event.message));
+    print(event.futureprompt);
+    emit(LlmBlocIndsideResponse(title: event.title, message: event.message,futureprompt: event.futureprompt));
+
   }
 }

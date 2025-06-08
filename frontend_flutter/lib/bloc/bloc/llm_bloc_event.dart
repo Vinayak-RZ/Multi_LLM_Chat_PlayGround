@@ -18,6 +18,8 @@ class LlmFetchDataWithContext extends LlmBlocEvent {
 class LlmBlocGoInResponse extends LlmBlocEvent {
   final String title;
   final String message;
+  final String futureprompt;
 
-  LlmBlocGoInResponse({required this.title, required this.message});
+  LlmBlocGoInResponse({required this.title, required this.message,
+    required this.futureprompt});
 }

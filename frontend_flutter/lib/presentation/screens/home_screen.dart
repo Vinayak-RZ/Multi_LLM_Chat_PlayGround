@@ -155,6 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 LlmBlocGoInResponse(
                                   title: "Deepseek",
                                   message: state.deepseekData,
+                                  futureprompt: state.deepseekData
+                                  ,
                                 ),
                               );
                             },
@@ -167,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 LlmBlocGoInResponse(
                                   title: "Llama",
                                   message: state.llamaData,
+                                  futureprompt: state.llamaData
                                 ),
                               );
                             },
@@ -179,6 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 LlmBlocGoInResponse(
                                   title: "Mistral",
                                   message: state.mistralData,
+                                  futureprompt: state.mistralData,
                                 ),
                               );
                             },
@@ -191,6 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 LlmBlocGoInResponse(
                                   title: "Gemini",
                                   message: state.geminiData,
+                                  futureprompt: state.geminiData,
                                 ),
                               );
                             },
@@ -283,7 +288,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 GradientButton(
                   onPressed: () {
-                    // context.read<LlmBlocBloc>().add(LoadMessages());
+                    context.read<LlmBlocBloc>().add(
+                        LlmFetchData(query: state.futureprompt.trim()),
+                      );
                   },
                   text: "Send Response to LLMs",
                 ),
@@ -297,8 +304,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         messageController.clear();
                       }
                       context.read<LlmBlocBloc>().add(
-                        LlmFetchData(query: text),
-                      );
+                            LlmFetchData(query: text),
+                          );
                       history = text;
                     },
                   ),
