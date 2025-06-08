@@ -13,6 +13,12 @@ final class LlmDataFetched extends LlmBlocState {
 
   LlmDataFetched({required this.deepseekData, required this.mistralData, required this.llamaData, required this.geminiData});
 }
+final class LlmBlocIndsideResponse extends LlmBlocState {
+  final String title;
+  final String message;
+
+  LlmBlocIndsideResponse({required this.message, required this.title});
+}
 final class LlmBlocFailure extends LlmBlocState {
   final String error;
 

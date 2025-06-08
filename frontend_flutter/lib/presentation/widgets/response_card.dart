@@ -60,6 +60,7 @@ class ResponseCard extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   text,
+                  maxLines: 5,
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.normal,

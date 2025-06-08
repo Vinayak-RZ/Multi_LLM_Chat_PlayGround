@@ -14,3 +14,9 @@ class LlmFetchDataWithContext extends LlmBlocEvent {
 
   LlmFetchDataWithContext({required this.query, required this.context});
 }
+class LlmBlocGoInResponse extends LlmBlocEvent {
+  final String title;
+  final String message;
+
+  LlmBlocGoInResponse({required this.title, required this.message});
+}
