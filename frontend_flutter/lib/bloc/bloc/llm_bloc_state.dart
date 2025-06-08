@@ -29,6 +29,7 @@ final class LlmBlocLoading extends LlmBlocState {
 
   LlmBlocLoading({required this.message});
 }
+
 final class LlmBlocSuccess extends LlmBlocState {
   final String message;
 

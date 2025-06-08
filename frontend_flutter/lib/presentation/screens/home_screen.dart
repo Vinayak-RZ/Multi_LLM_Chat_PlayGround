@@ -8,10 +8,10 @@ import 'package:frontend_flutter/presentation/screens/login_screen.dart';
 import 'package:frontend_flutter/presentation/widgets/message_input.dart';
 import 'package:frontend_flutter/presentation/widgets/response_card.dart';
 import 'package:frontend_flutter/presentation/widgets/gradient_button.dart';
-
+String history = ""; // To store response card history
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
+  // To store response card history
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -29,6 +29,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            context.read<LlmBlocBloc>().add(
+                        LlmFetchData(query: history),
+                      ); 
+          },
+        ),
         title: ShaderMask(
           shaderCallback: (bounds) => const LinearGradient(
             colors: [
@@ -119,6 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       context.read<LlmBlocBloc>().add(
                         LlmFetchData(query: text),
                       );
+                      history = text;
                     },
                   ),
                 ),
@@ -174,8 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                             title: "Mistral",
-                            text:
-                                state.mistralData,
+                            text: state.mistralData,
                           ),
                           ResponseCard(
                             onPressed: () {
@@ -187,8 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                             title: "Gemini",
-                            text:
-                                state.geminiData,
+                            text: state.geminiData,
                           ),
                         ],
                       ),
@@ -211,6 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           context.read<LlmBlocBloc>().add(
                             LlmFetchData(query: text),
                           );
+                          history = text;
                         },
                       ),
                     ],
@@ -296,6 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       context.read<LlmBlocBloc>().add(
                         LlmFetchData(query: text),
                       );
+                      history = text;
                     },
                   ),
                 ),
