@@ -23,3 +23,8 @@ class LlmBlocGoInResponse extends LlmBlocEvent {
   LlmBlocGoInResponse({required this.title, required this.message,
     required this.futureprompt});
 }
+class LlmBlocGoBack extends LlmBlocEvent {
+  final List<String> responses;
+
+  LlmBlocGoBack({required this.responses});
+}

@@ -42,6 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final token = responseData['token'];
         //storing token in secure storage
         await storage.write(key: 'auth_token', value: token);
+        await storage.write(key: 'email', value: email); // Store email if needed
       } else {
         final data = jsonDecode(response.body);
         emit(

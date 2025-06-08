@@ -26,10 +26,11 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Multi-LLM-Chat',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Pallete.backgroundColor,
         ),
-        home: const HomeScreen(),
+        home: const LoginScreen(),
         routes: appRoutes,
       ),
     );

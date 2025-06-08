@@ -58,7 +58,8 @@ public class LLMService
 
 
     public async Task<string> CallGeminiAsync(string prompt, string model = "gemini")
-    {
+    {   
+        Console.WriteLine("Calling Gemini API with prompt: " + prompt);
         string apiKey = Environment.GetEnvironmentVariable("GEMINI_API_KEY") ?? throw new InvalidOperationException("API key not found in environment variables.");
         if (string.IsNullOrEmpty(apiKey))
         {
@@ -102,7 +103,8 @@ public class LLMService
     private static readonly string apiUrl = "https://router.huggingface.co/together/v1/chat/completions";
 
     public async Task<string> CallMistralAsync(string prompt, string model = "mistralai/Mixtral-8x7B-Instruct-v0.1")
-    {
+    {   
+        Console.WriteLine("Calling Mistral API with prompt: " + prompt);
         string hfToken = Environment.GetEnvironmentVariable("HF_TOKEN")
                          ?? throw new InvalidOperationException("API key not found in environment variables.");
 
@@ -130,7 +132,7 @@ public class LLMService
             .GetProperty("message")
             .GetProperty("content")
             .GetString();
-
+        Console.WriteLine("Response: " + reply);
         return reply;
     }
     public async Task<string> CallLlamaAsync(string prompt, string model = "Meta-Llama-3.1-8B-Instruct")

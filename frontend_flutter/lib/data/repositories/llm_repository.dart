@@ -7,7 +7,7 @@ class LLMRepository {
 
   LLMRepository();
   final url = Uri.parse('http://localhost:5261/prompt');
- Future<List<LLMResponse>> sendPrompt(String prompt, List<String> llms, String token) async {
+ Future<List<LLMResponse>> sendPrompt(String prompt, List<String> llms, String token,String email) async {
     String prompty = jsonEncode(prompt).toString();
 
     final response = await http.post(
@@ -17,6 +17,7 @@ class LLMRepository {
         'Authorization': 'Bearer $token',
       },
       body: jsonEncode({
+        'email':email,
         'prompt': prompty,
         'llms': llms,
       }),

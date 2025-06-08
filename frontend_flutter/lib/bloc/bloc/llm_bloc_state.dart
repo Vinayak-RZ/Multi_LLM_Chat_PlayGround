@@ -30,7 +30,11 @@ final class LlmBlocLoading extends LlmBlocState {
 
   LlmBlocLoading({required this.message});
 }
+final class LlmBlocHistory extends LlmBlocState {
+  final List<String> responses;
 
+  LlmBlocHistory({required this.responses});
+}
 final class LlmBlocSuccess extends LlmBlocState {
   final String message;
 

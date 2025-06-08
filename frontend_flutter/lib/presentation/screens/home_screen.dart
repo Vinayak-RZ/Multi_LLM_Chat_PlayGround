@@ -9,7 +9,7 @@ import 'package:frontend_flutter/presentation/widgets/message_input.dart';
 import 'package:frontend_flutter/presentation/widgets/response_card.dart';
 import 'package:frontend_flutter/presentation/widgets/gradient_button.dart';
 
-String history = ""; // To store response card history
+List<String> history = []; // To store response cards history
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            context.read<LlmBlocBloc>().add(LlmFetchData(query: history));
+            context.read<LlmBlocBloc>().add(LlmBlocGoBack(responses: history));
           },
         ),
         title: ShaderMask(
@@ -127,7 +127,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       context.read<LlmBlocBloc>().add(
                         LlmFetchData(query: text),
                       );
-                      history = text;
                     },
                   ),
                 ),
@@ -136,6 +135,13 @@ class _HomeScreenState extends State<HomeScreen> {
           }
           if (state is LlmDataFetched) {
             //for testing purposes normally it will be LlmBlocSuccess
+            history.clear(); // Clear previous history
+            history = [
+              state.deepseekData,
+              state.llamaData,
+              state.mistralData,
+              state.geminiData,
+            ]; // Store the responses in history
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -155,8 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 LlmBlocGoInResponse(
                                   title: "Deepseek",
                                   message: state.deepseekData,
-                                  futureprompt: state.deepseekData
-                                  ,
+                                  futureprompt: state.deepseekData,
                                 ),
                               );
                             },
@@ -169,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 LlmBlocGoInResponse(
                                   title: "Llama",
                                   message: state.llamaData,
-                                  futureprompt: state.llamaData
+                                  futureprompt: state.llamaData,
                                 ),
                               );
                             },
@@ -223,7 +228,102 @@ class _HomeScreenState extends State<HomeScreen> {
                           context.read<LlmBlocBloc>().add(
                             LlmFetchData(query: text),
                           );
-                          history = text;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
+          if (state is LlmBlocHistory) {
+            //for testing purposes normally it will be LlmBlocSuccess
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // 2x2 Grid of Cards
+                      Wrap(
+                        spacing: 16,
+                        runSpacing: 16,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          ResponseCard(
+                            onPressed: () {
+                              context.read<LlmBlocBloc>().add(
+                                LlmBlocGoInResponse(
+                                  title: "Deepseek",
+                                  message: state.responses[0],
+                                  futureprompt: state.responses[0],
+                                ),
+                              );
+                            },
+                            title: "Deepseek",
+                            text: state.responses[0],
+                          ),
+                          ResponseCard(
+                            onPressed: () {
+                              context.read<LlmBlocBloc>().add(
+                                LlmBlocGoInResponse(
+                                  title: "Llama",
+                                  message: state.responses[1],
+                                  futureprompt: state.responses[1],
+                                ),
+                              );
+                            },
+                            title: "Llama",
+                            text: state.responses[1],
+                          ),
+                          ResponseCard(
+                            onPressed: () {
+                              context.read<LlmBlocBloc>().add(
+                                LlmBlocGoInResponse(
+                                  title: "Mistral",
+                                  message: state.responses[2],
+                                  futureprompt: state.responses[2],
+                                ),
+                              );
+                            },
+                            title: "Mistral",
+                            text: state.responses[2],
+                          ),
+                          ResponseCard(
+                            onPressed: () {
+                              context.read<LlmBlocBloc>().add(
+                                LlmBlocGoInResponse(
+                                  title: "Gemini",
+                                  message: state.responses[3],
+                                  futureprompt: state.responses[3],
+                                ),
+                              );
+                            },
+                            title: "Gemini",
+                            text: state.responses[3],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      GradientButton(
+                        onPressed: () {
+                          // context.read<LlmBlocBloc>().add(LoadMessages());
+                        },
+                        text: "Tap Response Cards to see more",
+                      ),
+                      const SizedBox(height: 20),
+                      // Message Input Bar
+                      MessageInput(
+                        controller: messageController,
+                        onSubmitted: (text) {
+                          if (text.trim().isNotEmpty) {
+                            // context.read<LlmBlocBloc>().add(SendMessage(text));
+                            messageController.clear();
+                          }
+                          context.read<LlmBlocBloc>().add(
+                            LlmFetchData(query: text),
+                          );
                         },
                       ),
                     ],
@@ -289,8 +389,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 GradientButton(
                   onPressed: () {
                     context.read<LlmBlocBloc>().add(
-                        LlmFetchData(query: state.futureprompt.trim()),
-                      );
+                      LlmFetchData(query: state.futureprompt.trim()),
+                    );
                   },
                   text: "Send Response to LLMs",
                 ),
@@ -304,9 +404,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         messageController.clear();
                       }
                       context.read<LlmBlocBloc>().add(
-                            LlmFetchData(query: text),
-                          );
-                      history = text;
+                        LlmFetchData(query: text),
+                      );
                     },
                   ),
                 ),

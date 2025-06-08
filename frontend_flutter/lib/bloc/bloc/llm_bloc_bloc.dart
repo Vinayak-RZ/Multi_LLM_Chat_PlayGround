@@ -12,6 +12,7 @@ final LLMRepository llmRepository;
   LlmBlocBloc({required this.llmRepository}) : super(LlmBlocInitial()) {
     on<LlmFetchData>(_llmFetchData);
     on<LlmBlocGoInResponse>(_llmGoInResponse);
+    on<LlmBlocGoBack>(_llmGoBack);
   }
   void _llmFetchData(LlmFetchData event, Emitter<LlmBlocState> emit) async {
     
@@ -20,6 +21,7 @@ final LLMRepository llmRepository;
     try {
       final storage = FlutterSecureStorage();
       final token = await storage.read(key: 'auth_token');
+      final email = await storage.read(key: 'email'); // Retrieve email if needed
 
       if (token == null) {
         emit(LlmBlocFailure(error:"Auth token not found."));
@@ -30,6 +32,7 @@ final LLMRepository llmRepository;
         event.query,
         event.selectedLLMs,
         token,
+        email!,
       );
 
       // Create variables to hold each LLM's response
@@ -67,6 +70,11 @@ final LLMRepository llmRepository;
       emit(LlmBlocFailure(error:"Failed to fetch LLM responses: $e"));
     }
   }
+  void _llmGoBack(LlmBlocGoBack event, Emitter<LlmBlocState> emit) {
+    // Emit the history state with the responses
+    emit(LlmBlocHistory(responses: event.responses));
+  }
+
 
   void _llmGoInResponse(LlmBlocGoInResponse event, Emitter<LlmBlocState> emit) {
     // Implement the logic to handle the response from the LLM API

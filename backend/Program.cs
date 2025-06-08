@@ -9,6 +9,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Authorization;
 using DotNetEnv;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
+using backend.Models;
+using System.Text.Json;
 
 
 
@@ -43,7 +46,7 @@ app.MapPost("/signup", async (RegisterRequest req, AuthService auth) =>
 });
 
 app.MapPost("/login", async (LoginRequest req, AuthService auth, JWTSettings jwtSettings) =>
-{       
+{
     System.Diagnostics.Debug.WriteLine($"Login attempt for email: {req.Email}");
     Console.WriteLine($"Login attempt for email: {req.Email}");
     var user = await auth.ValidateUserAsync(req.Email, req.Password);
@@ -52,10 +55,17 @@ app.MapPost("/login", async (LoginRequest req, AuthService auth, JWTSettings jwt
     var token = JwtTokenHelper.GenerateJwtToken(user, jwtSettings);
     return Results.Ok(new { token });
 });
-app.MapPost("/prompt", async (PromptRequest request,LLMService llmService, HttpContext context) =>
+app.MapPost("/prompt", async (PromptRequest request, LLMService llmService, AppDbContext db, HttpContext context) =>
 {
-    Console.WriteLine($"Received prompt: {request.prompt} for LLMs: {string.Join(", ", request.llms)}");
-    System.Diagnostics.Debug.WriteLine("Received prompt: " + request.prompt);
+   
+    Console.WriteLine("Processing prompt request: " + request.prompt);
+    var user = await db.Users.FirstOrDefaultAsync(u => u.Email == request.email);
+    if (user == null)
+    {
+        Console.WriteLine("User not found: " + request.email);
+        return Results.Unauthorized();
+    }
+    // 2. Call all selected LLMs
     var tasks = request.llms.Select(async llm =>
     {
         string response = llm.ToLower() switch
@@ -71,7 +81,20 @@ app.MapPost("/prompt", async (PromptRequest request,LLMService llmService, HttpC
     });
 
     var responses = await Task.WhenAll(tasks);
+
+    // 3. Save conversation
+    var conversation = new Conversation
+    {
+        Prompt = request.prompt,
+        ResponsesJson = JsonSerializer.Serialize(responses),
+        UserEmail = request.email,
+    };
+
+    user.Conversations.Add(conversation);
+    await db.SaveChangesAsync();
+
     return Results.Ok(responses);
 });
+
 
 app.Run();
