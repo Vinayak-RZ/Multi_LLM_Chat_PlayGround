@@ -231,10 +231,10 @@ class _HomeScreenState extends State<HomeScreen> {
             return Column(
               children: [
                 Expanded(
-                  child: Center(
+                  child: SingleChildScrollView(
+                    // Add scrolling here
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Center(
                           child: ShaderMask(
@@ -255,19 +255,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     bounds.height,
                                   ),
                                 ),
-                            child: SingleChildScrollView(
-                              child: Text(
-                                state.title,
-                                style: const TextStyle(
-                                  fontSize: 35,
-                                  fontWeight: FontWeight.normal,
-                                  color: Color.fromARGB(
-                                    255,
-                                    255,
-                                    182,
-                                    242,
-                                  ), // Deep indigo/navy blue color
-                                ),
+                            child: Text(
+                              state.title,
+                              style: const TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.normal,
+                                color: Color.fromARGB(255, 255, 182, 242),
                               ),
                             ),
                           ),
@@ -278,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Text(
                             state.message,
                             style: const TextStyle(
-                              fontSize: 18,
+                              fontSize: 19,
                               fontWeight: FontWeight.normal,
                               color: Color.fromARGB(255, 255, 122, 193),
                             ),
@@ -300,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     controller: messageController,
                     onSubmitted: (text) {
                       if (text.trim().isNotEmpty) {
-                        //context.read<LlmBlocBloc>().add(SendMessage(text));
+                        // context.read<LlmBlocBloc>().add(SendMessage(text));
                         messageController.clear();
                       }
                       context.read<LlmBlocBloc>().add(

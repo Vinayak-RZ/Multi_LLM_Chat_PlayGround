@@ -16,7 +16,7 @@ class ResponseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 600,
-      height: 250,
+      height: 260,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 40),
         decoration: BoxDecoration(
@@ -61,9 +61,9 @@ class ResponseCard extends StatelessWidget {
                 SingleChildScrollView(
                   child: Text(
                     text,
-                    maxLines: 5,
+                    maxLines: 6,
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 17,
                       fontWeight: FontWeight.normal,
                       color: Colors.white,
                     ),
